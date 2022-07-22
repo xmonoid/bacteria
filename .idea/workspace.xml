@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fe9b450-2763-4777-8a7c-138cd3297ef6" name="Changes" comment="Initial commit">
+    <list default="true" id="6fe9b450-2763-4777-8a7c-138cd3297ef6" name="Changes" comment="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка.">
       <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/AddNewBacteriaButton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/ControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/ControlPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,14 +43,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "jdk.selected.JAVA_MODULE": "11"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="BacteriaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="ekosykh.edu.bacteria.BacteriaApplication" />
@@ -84,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658416884222</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка.">
+      <created>1658482357379</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1658482357379</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -101,6 +111,7 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+    <MESSAGE value="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка." />
+    <option name="LAST_COMMIT_MESSAGE" value="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка." />
   </component>
 </project>

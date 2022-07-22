@@ -13,8 +13,16 @@ public class ControlPanel extends JPanel {
 
     public ControlPanel(BacteriaFrame bacteriaFrame, BacteriaPanel bacteriaPanel) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        var bacteriaButton = new AddNewBacteriaButton(bacteriaFrame, bacteriaPanel);
+        var bacteriaButton = new JButton("Add new Bacteria");
         add(bacteriaButton);
+        var bacteriaCount = new BacteriaCountLabel("Bacteria count: ");
+        add(bacteriaCount);
+
+        bacteriaButton.addActionListener(event -> {
+            bacteriaPanel.addBacteria();
+            bacteriaCount.addBacteria();
+            bacteriaFrame.repaint();
+        });
     }
 
     public Dimension getPreferredSize() {

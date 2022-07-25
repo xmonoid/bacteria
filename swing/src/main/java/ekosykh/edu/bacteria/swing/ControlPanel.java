@@ -1,5 +1,7 @@
 package ekosykh.edu.bacteria.swing;
 
+import ekosykh.edu.bacteria.logic.Environment;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,16 +13,17 @@ public class ControlPanel extends JPanel {
     public static final int WIDTH = 200;
     public static final int HEIGHT = 600;
 
-    public ControlPanel(BacteriaFrame bacteriaFrame, BacteriaPanel bacteriaPanel) {
+    public ControlPanel(final BacteriaFrame bacteriaFrame,
+                        final Environment environment) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         var bacteriaButton = new JButton("Add new Bacteria");
         add(bacteriaButton);
-        var bacteriaCount = new BacteriaCountLabel("Bacteria count: ");
+        var bacteriaCount = new BacteriaCountLabel("Bacteria count: ", environment);
         add(bacteriaCount);
 
         bacteriaButton.addActionListener(event -> {
-            bacteriaPanel.addBacteria();
-            bacteriaCount.addBacteria();
+            environment.addBacteria();
+            bacteriaCount.recountBacteria();
             bacteriaFrame.repaint();
         });
     }

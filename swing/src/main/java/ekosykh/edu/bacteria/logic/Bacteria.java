@@ -2,26 +2,23 @@ package ekosykh.edu.bacteria.logic;
 
 import ekosykh.edu.bacteria.swing.BacteriaPanel;
 
-import java.awt.Color;
 import java.util.Random;
 
 public class Bacteria {
     private static final Random RND = new Random();
     private static final int WIDTH = 3;
     private static final int HEIGHT = 3;
-    private static final int MAX_X = BacteriaPanel.WIDTH;
-    private static final int MAX_Y = BacteriaPanel.HEIGHT;
+    private static final int MAX_X = Environment.WIDTH;
+    private static final int MAX_Y = Environment.HEIGHT;
     private static int nextId = 0;
 
     private int x;
     private int y;
     private final int id;
-    private final Color color;
 
     public Bacteria() {
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
-        this.color = Color.BLUE;
         this.id = nextId++;
     }
 
@@ -67,10 +64,6 @@ public class Bacteria {
 
     public int getH() {
         return HEIGHT;
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     @Override

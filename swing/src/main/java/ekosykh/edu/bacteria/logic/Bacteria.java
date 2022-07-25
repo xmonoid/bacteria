@@ -1,10 +1,8 @@
 package ekosykh.edu.bacteria.logic;
 
-import ekosykh.edu.bacteria.swing.BacteriaPanel;
-
 import java.util.Random;
 
-public class Bacteria {
+public class Bacteria extends Thread {
     private static final Random RND = new Random();
     private static final int WIDTH = 3;
     private static final int HEIGHT = 3;
@@ -17,9 +15,20 @@ public class Bacteria {
     private final int id;
 
     public Bacteria() {
+        super("Bacteria #" + nextId);
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
         this.id = nextId++;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (!isInterrupted()) {
+                makeStep();
+                sleep(1_000);
+            }
+        } catch (InterruptedException ignored) {}
     }
 
     public void makeStep() {

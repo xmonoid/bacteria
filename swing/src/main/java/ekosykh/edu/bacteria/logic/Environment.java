@@ -13,6 +13,7 @@ public class Environment {
     public void addBacteria() {
         var bacteria = new Bacteria();
         bacteriaSet.add(bacteria);
+        bacteria.start();
     }
 
     public Set<Bacteria> getBacteriaSet() {

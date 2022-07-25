@@ -13,8 +13,7 @@ public class ControlPanel extends JPanel {
     public static final int WIDTH = 200;
     public static final int HEIGHT = 600;
 
-    public ControlPanel(final BacteriaFrame bacteriaFrame,
-                        final Environment environment) {
+    public ControlPanel(final Environment environment) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         var bacteriaButton = new JButton("Add new Bacteria");
         add(bacteriaButton);
@@ -24,7 +23,6 @@ public class ControlPanel extends JPanel {
         bacteriaButton.addActionListener(event -> {
             environment.addBacteria();
             bacteriaCount.recountBacteria();
-            bacteriaFrame.repaint();
         });
     }
 

@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fe9b450-2763-4777-8a7c-138cd3297ef6" name="Changes" comment="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка.">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="6fe9b450-2763-4777-8a7c-138cd3297ef6" name="Changes" comment="Story #2. Отделил бизнес-логику от UI: бактерии живут внутри среды, эти сущности не зависят от UI">
+      <change afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/logic/Environment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.MD" beforeDir="false" afterPath="$PROJECT_DIR$/README.MD" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/AddNewBacteriaButton.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/logic/Bacteria.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/logic/Bacteria.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaCountLabel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaCountLabel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/BacteriaPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/ControlPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/swing/src/main/java/ekosykh/edu/bacteria/swing/ControlPanel.java" afterDir="false" />
     </list>
@@ -94,7 +95,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658482357379</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Story #2. Добавлять новые точки по нажатию на кнопку.">
+      <created>1658500449247</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1658500449247</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,9 +117,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка." />
-    <option name="LAST_COMMIT_MESSAGE" value="Story #1. Написать Swing-форму, у которой есть слева квадратное поле, а справа кнопка, по нажатию на которую на форме в случайном месте появляется синяя точка." />
+    <MESSAGE value="Story #2. Добавлять новые точки по нажатию на кнопку." />
+    <MESSAGE value="Story #2. Отделил бизнес-логику от UI: бактерии живут внутри среды, эти сущности не зависят от UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Story #2. Отделил бизнес-логику от UI: бактерии живут внутри среды, эти сущности не зависят от UI" />
   </component>
 </project>

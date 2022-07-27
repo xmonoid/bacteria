@@ -31,7 +31,7 @@ public class Bacteria extends TimerTask {
     private void makeStep() {
         // Clean old position
         synchronized (area) {
-            area[x][y] = 0;
+            area[x][y] = 2;
         }
 
         int stepOnX;

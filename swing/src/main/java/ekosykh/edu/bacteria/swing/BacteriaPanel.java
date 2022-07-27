@@ -35,10 +35,19 @@ public class BacteriaPanel extends JPanel {
         synchronized (environment.area) {
             for (int i = 0; i < environment.area.length; i++) {
                 for (int j = 0; j < environment.area[i].length; j++) {
-                    if (environment.area[i][j] == 1) {
-                        comp2D.setColor(Color.BLUE);
-                        var circle = new Ellipse2D.Float(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
-                        comp2D.fill(circle);
+                    if (environment.area[i][j] > 0) {
+                        switch (environment.area[i][j]) {
+                            case 1:
+                                comp2D.setColor(Color.BLUE);
+                                var circle = new Ellipse2D.Float(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
+                                comp2D.fill(circle);
+                                break;
+                            case 2:
+                                comp2D.setColor(Color.RED);
+                                circle = new Ellipse2D.Float(i, j, 1, 1);
+                                comp2D.fill(circle);
+                                break;
+                        }
                     }
                 }
             }

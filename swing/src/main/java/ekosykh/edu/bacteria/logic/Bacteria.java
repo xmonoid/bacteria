@@ -1,8 +1,9 @@
 package ekosykh.edu.bacteria.logic;
 
 import java.util.Random;
+import java.util.TimerTask;
 
-public class Bacteria extends Thread {
+public class Bacteria extends TimerTask {
     private static final Random RND = new Random();
     private static final int WIDTH = 3;
     private static final int HEIGHT = 3;
@@ -15,7 +16,6 @@ public class Bacteria extends Thread {
     private final int id;
 
     public Bacteria() {
-        super("Bacteria #" + nextId);
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
         this.id = nextId++;
@@ -23,15 +23,10 @@ public class Bacteria extends Thread {
 
     @Override
     public void run() {
-        try {
-            while (!isInterrupted()) {
-                makeStep();
-                sleep(1_000);
-            }
-        } catch (InterruptedException ignored) {}
+        makeStep();
     }
 
-    public void makeStep() {
+    private void makeStep() {
         int stepOnX;
         switch (x) {
             case 0: // the bacteria is at the right wall
@@ -73,6 +68,10 @@ public class Bacteria extends Thread {
 
     public int getH() {
         return HEIGHT;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

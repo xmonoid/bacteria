@@ -3,6 +3,7 @@ package ekosykh.edu.bacteria.logic;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Timer;
 
 public class Environment {
 
@@ -13,7 +14,8 @@ public class Environment {
     public void addBacteria() {
         var bacteria = new Bacteria();
         bacteriaSet.add(bacteria);
-        bacteria.start();
+        new Timer("Bacteria #" + bacteria.getId()).
+                scheduleAtFixedRate(bacteria, 0L, 1_000L);
     }
 
     public Set<Bacteria> getBacteriaSet() {

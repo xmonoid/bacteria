@@ -10,7 +10,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.geom.Ellipse2D;
 
 public class BacteriaPanel extends JPanel {
 
@@ -39,13 +38,11 @@ public class BacteriaPanel extends JPanel {
                         switch (environment.area[i][j]) {
                             case 1:
                                 comp2D.setColor(Color.BLUE);
-                                var circle = new Ellipse2D.Float(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
-                                comp2D.fill(circle);
+                                comp2D.fillOval(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
                                 break;
                             case 2:
                                 comp2D.setColor(Color.RED);
-                                circle = new Ellipse2D.Float(i, j, 1, 1);
-                                comp2D.fill(circle);
+                                comp2D.fillOval(i, j, 1, 1);
                                 break;
                         }
                     }

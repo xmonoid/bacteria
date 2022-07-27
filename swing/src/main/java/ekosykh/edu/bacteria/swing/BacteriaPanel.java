@@ -1,5 +1,6 @@
 package ekosykh.edu.bacteria.swing;
 
+import ekosykh.edu.bacteria.logic.Bacteria;
 import ekosykh.edu.bacteria.logic.Environment;
 
 import javax.swing.BorderFactory;
@@ -30,11 +31,17 @@ public class BacteriaPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D comp2D = (Graphics2D) g;
         comp2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        for(var bacteria: environment.getBacteriaSet()) {
-            comp2D.setColor(Color.BLUE);
-            var circle = new Ellipse2D.Float(
-                    bacteria.getX(), bacteria.getY(), bacteria.getW(), bacteria.getH());
-            comp2D.fill(circle);
+
+        synchronized (environment.area) {
+            for (int i = 0; i < environment.area.length; i++) {
+                for (int j = 0; j < environment.area[i].length; j++) {
+                    if (environment.area[i][j] == 1) {
+                        comp2D.setColor(Color.BLUE);
+                        var circle = new Ellipse2D.Float(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
+                        comp2D.fill(circle);
+                    }
+                }
+            }
         }
     }
 }

@@ -5,8 +5,8 @@ import java.util.TimerTask;
 
 public class Bacteria extends TimerTask {
     private static final Random RND = new Random();
-    private static final int WIDTH = 3;
-    private static final int HEIGHT = 3;
+    public static final int WIDTH = 3;
+    public static final int HEIGHT = 3;
     private static final int MAX_X = Environment.WIDTH;
     private static final int MAX_Y = Environment.HEIGHT;
     private static int nextId = 0;
@@ -14,11 +14,13 @@ public class Bacteria extends TimerTask {
     private int x;
     private int y;
     private final int id;
+    private final int[][] area;
 
-    public Bacteria() {
+    public Bacteria(final int[][] area) {
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
         this.id = nextId++;
+        this.area = area;
     }
 
     @Override
@@ -27,12 +29,17 @@ public class Bacteria extends TimerTask {
     }
 
     private void makeStep() {
+        // Clean old position
+        synchronized (area) {
+            area[x][y] = 0;
+        }
+
         int stepOnX;
         switch (x) {
             case 0: // the bacteria is at the right wall
                 stepOnX = RND.nextInt(2); // 0 or 1
                 break;
-            case MAX_X: // the bacteria is at the right wall
+            case MAX_X-1: // the bacteria is at the right wall
                 stepOnX = RND.nextInt(2) - 1; // -1 or 0
                 break;
             default:
@@ -45,29 +52,18 @@ public class Bacteria extends TimerTask {
             case 0: // the bacteria is at the top wall
                 stepOnY = RND.nextInt(2); // 0 or 1
                 break;
-            case MAX_Y: // the bacteria is at the bottom wall
+            case MAX_Y-1: // the bacteria is at the bottom wall
                 stepOnY = RND.nextInt(2) - 1; // -1 or 0
                 break;
             default:
                 stepOnY = RND.nextInt(3) - 1; // -1, 0, or 1
         }
         y += stepOnY;
-    }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getW() {
-        return WIDTH;
-    }
-
-    public int getH() {
-        return HEIGHT;
+        // Set new position
+        synchronized (area) {
+            area[x][y] = 1;
+        }
     }
 
     public int getId() {

@@ -11,12 +11,12 @@ public class BacteriaCountLabel extends JLabel {
 
     public BacteriaCountLabel(final String capture,
                               final Environment environment) {
-        super(capture + environment.getBacteriaSet().size());
+        super(capture + environment.getBacteriaNumber());
         this.environment = environment;
         this.capture = capture;
     }
 
     public void recountBacteria() {
-        this.setText(capture + environment.getBacteriaSet().size());
+        this.setText(capture + environment.getBacteriaNumber());
     }
 }

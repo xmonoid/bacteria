@@ -3,10 +3,9 @@ package ekosykh.edu.bacteria.logic;
 import java.util.Random;
 import java.util.TimerTask;
 
-public class Bacteria extends TimerTask {
+class Bacteria extends TimerTask {
+
     private static final Random RND = new Random();
-    public static final int WIDTH = 3;
-    public static final int HEIGHT = 3;
     private static final int MAX_X = Environment.WIDTH;
     private static final int MAX_Y = Environment.HEIGHT;
     private static int nextId = 0;
@@ -31,7 +30,7 @@ public class Bacteria extends TimerTask {
     private void makeStep() {
         // Clean old position
         synchronized (area) {
-            area[x][y] = 2;
+            area[x][y] = Position.BACTERIA_WAS_HERE.getValue();
         }
 
         int stepOnX;
@@ -62,7 +61,7 @@ public class Bacteria extends TimerTask {
 
         // Set new position
         synchronized (area) {
-            area[x][y] = 1;
+            area[x][y] = Position.BACTERIA_IS_HERE.getValue();
         }
     }
 

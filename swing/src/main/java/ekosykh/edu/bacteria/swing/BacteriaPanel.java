@@ -1,6 +1,5 @@
 package ekosykh.edu.bacteria.swing;
 
-import ekosykh.edu.bacteria.logic.Bacteria;
 import ekosykh.edu.bacteria.logic.Environment;
 
 import javax.swing.BorderFactory;
@@ -40,7 +39,7 @@ public class BacteriaPanel extends JPanel {
                         switch (environment.area[i][j]) {
                             case 1:
                                 comp2D.setColor(Color.BLUE);
-                                comp2D.fillOval(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
+                                comp2D.fillOval(i, j, 3, 3);
                                 break;
                             case 2:
                                 if (trackMovements) {

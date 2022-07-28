@@ -11,16 +11,14 @@ public class BacteriaFrame extends JFrame {
     public static final int WIDTH = 1920;
     public static final int HEIGHT = 1200;
 
-    private final BacteriaPanel bacteriaPanel;
-
     public BacteriaFrame() {
         super("bacteria");
         setLayout(new FlowLayout());
         setBounds(WIDTH/4, HEIGHT/4, WIDTH/2, HEIGHT/2);
-        var environment = new Environment();
-        bacteriaPanel = new BacteriaPanel(environment);
+        final var environment = new Environment();
+        final var bacteriaPanel = new BacteriaPanel(environment);
         add(bacteriaPanel);
-        add(new ControlPanel(environment));
+        add(new ControlPanel(environment, bacteriaPanel));
         pack();
         new Timer(100, e -> bacteriaPanel.repaint()).start();
     }

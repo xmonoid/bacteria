@@ -15,6 +15,8 @@ public class BacteriaPanel extends JPanel {
 
     private final Environment environment;
 
+    private boolean trackMovements = true;
+
     public BacteriaPanel(final Environment environment) {
         this.environment = environment;
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -41,13 +43,19 @@ public class BacteriaPanel extends JPanel {
                                 comp2D.fillOval(i, j, Bacteria.WIDTH, Bacteria.HEIGHT);
                                 break;
                             case 2:
-                                comp2D.setColor(Color.RED);
-                                comp2D.fillOval(i, j, 1, 1);
+                                if (trackMovements) {
+                                    comp2D.setColor(Color.RED);
+                                    comp2D.fillOval(i, j, 1, 1);
+                                }
                                 break;
                         }
                     }
                 }
             }
         }
+    }
+
+    public void setTrackMovements(boolean trackMovements) {
+        this.trackMovements = trackMovements;
     }
 }

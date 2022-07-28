@@ -23,4 +23,16 @@ public class Environment {
     public Set<Bacteria> getBacteriaSet() {
         return Collections.unmodifiableSet(bacteriaSet);
     }
+
+    public void cleanTracks() {
+        synchronized (area) {
+            for (int i = 0; i < area.length; i++) {
+                for (int j = 0; j < area[i].length; j++) {
+                    if (area[i][j] == 2) {
+                        area[i][j] = 0;
+                    }
+                }
+            }
+        }
+    }
 }

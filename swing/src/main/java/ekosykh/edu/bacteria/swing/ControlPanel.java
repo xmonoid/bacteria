@@ -14,17 +14,22 @@ public class ControlPanel extends JPanel {
     public static final int WIDTH = 200;
     public static final int HEIGHT = 600;
 
-    public ControlPanel(final Environment environment, final BacteriaPanel bacteriaPanel) {
+    private final BacteriaAliveCountLabel aliveCount;
+
+    public ControlPanel(final Environment environment,
+                        final BacteriaPanel bacteriaPanel) {
         setBorder(BorderFactory.createLineBorder(Color.BLACK));
         var bacteriaButton = new JButton("Add new Bacteria");
         add(bacteriaButton);
-        var bacteriaCount = new BacteriaCountLabel("Bacteria count: ", environment);
+        var bacteriaCount = new BacteriaTotalCountLabel("Total bacteria: ", environment);
         add(bacteriaCount);
-        var trackCheckBox = new JCheckBox("Track bacteria movements");
+        aliveCount = new BacteriaAliveCountLabel("Alive bacteria:", environment);
+        add(aliveCount);
+        var trackCheckBox = new JCheckBox("Show bacteria tracks");
         trackCheckBox.setSelected(true);
         add(trackCheckBox);
-        var cleanTracksButton = new JButton("Clean tracks");
-        add(cleanTracksButton);
+        var freshTracksButton = new JButton("Fresh tracks");
+        add(freshTracksButton);
 
         trackCheckBox.addActionListener(event ->
                 bacteriaPanel.setTrackMovements(trackCheckBox.isSelected())
@@ -32,8 +37,13 @@ public class ControlPanel extends JPanel {
         bacteriaButton.addActionListener(event -> {
             environment.addBacteria();
             bacteriaCount.recountBacteria();
+            aliveCount.recountBacteria();
         });
-        cleanTracksButton.addActionListener(event -> environment.cleanTracks());
+        freshTracksButton.addActionListener(event -> environment.cleanTracks());
+    }
+
+    void recountAliveBacteria() {
+        aliveCount.recountBacteria();
     }
 
     public Dimension getPreferredSize() {

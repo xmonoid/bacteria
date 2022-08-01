@@ -1,5 +1,6 @@
 package ekosykh.edu.bacteria.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
 
@@ -13,13 +14,21 @@ class Bacteria extends TimerTask {
     private int x;
     private int y;
     private final int id;
-    private final int[][] area;
+    private final Environment environment;
+    private boolean alive;
 
-    public Bacteria(final int[][] area) {
+    public Bacteria(final Environment environment) {
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
         this.id = nextId++;
-        this.area = area;
+        this.environment = environment;
+        alive = true;
+    }
+
+    Bacteria(final Environment environment, int startX, int startY) {
+        this(environment);
+        this.x = startX;
+        this.y = startY;
     }
 
     @Override
@@ -27,46 +36,57 @@ class Bacteria extends TimerTask {
         makeStep();
     }
 
-    private void makeStep() {
-        // Clean old position
-        synchronized (area) {
-            area[x][y] = Position.BACTERIA_WAS_HERE.getValue();
+    void makeStep() {
+        // 1. Determine is there an available place for the next step
+        var availableDirections = new ArrayList<Direction>(8);
+        for (int i = x-1; i <= x+1; i++) {
+            for (int j = y-1; j <= y+1; j++) {
+                // Exclude walls and the current position
+                if (i<0 || i>=MAX_X || j<0 || j>=MAX_Y || (i==x && j==y)) {
+                    continue;
+                }
+                if (environment.area[i][j] == 0) {
+                    availableDirections.add( Direction.getDirection(i-x, j-y) );
+                }
+            }
         }
+        // 2. If there is no place, the bacteria dies
+        if (availableDirections.isEmpty()) {
+            this.cancel();
+            alive = false;
+        } else {
+            // Clean old position
+            synchronized (environment.area) {
+                environment.area[x][y] = Position.BACTERIA_WAS_HERE.getValue();
+            }
 
-        int stepOnX;
-        switch (x) {
-            case 0: // the bacteria is at the right wall
-                stepOnX = RND.nextInt(2); // 0 or 1
-                break;
-            case MAX_X-1: // the bacteria is at the right wall
-                stepOnX = RND.nextInt(2) - 1; // -1 or 0
-                break;
-            default:
-                stepOnX = RND.nextInt(3) - 1; // -1, 0, or 1
-        }
-        x += stepOnX;
+            // 3. Choose a random direction from the list of available ones
+            int nextInt = RND.nextInt(availableDirections.size());
+            var direction = availableDirections.get(nextInt);
+            x += direction.getX();
+            y += direction.getY();
 
-        int stepOnY;
-        switch (y) {
-            case 0: // the bacteria is at the top wall
-                stepOnY = RND.nextInt(2); // 0 or 1
-                break;
-            case MAX_Y-1: // the bacteria is at the bottom wall
-                stepOnY = RND.nextInt(2) - 1; // -1 or 0
-                break;
-            default:
-                stepOnY = RND.nextInt(3) - 1; // -1, 0, or 1
-        }
-        y += stepOnY;
-
-        // Set new position
-        synchronized (area) {
-            area[x][y] = Position.BACTERIA_IS_HERE.getValue();
+            // Set new position
+            synchronized (environment.area) {
+                environment.area[x][y] = Position.BACTERIA_IS_HERE.getValue();
+            }
         }
     }
 
     public int getId() {
         return id;
+    }
+
+    int getX() {
+        return x;
+    }
+
+    int getY() {
+        return y;
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     @Override

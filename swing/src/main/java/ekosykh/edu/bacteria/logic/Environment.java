@@ -10,17 +10,23 @@ public class Environment {
     public static final int HEIGHT = 600;
     // this is the area where all bacteria live
     public final int[][] area = new int[WIDTH][HEIGHT];
-    private final Map<Integer, Timer> createdBacteria = new ConcurrentHashMap<>();
+    private final Map<Integer, Bacteria> createdBacteria = new ConcurrentHashMap<>();
 
     public void addBacteria() {
-        var bacteria = new Bacteria(area);
+        var bacteria = new Bacteria(this);
         var bacteriaTimer = new Timer("Bacteria #" + bacteria.getId());
         bacteriaTimer.scheduleAtFixedRate(bacteria, 0L, 1_000L);
-        createdBacteria.put(bacteria.getId(), bacteriaTimer);
+        createdBacteria.put(bacteria.getId(), bacteria);
     }
 
     public int getBacteriaNumber() {
         return createdBacteria.size();
+    }
+
+    public int getAliveBacteriaNumber() {
+        return (int) createdBacteria.entrySet().stream().filter(
+                bacteria -> bacteria.getValue().isAlive()
+        ).count();
     }
 
     public void cleanTracks() {

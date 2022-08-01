@@ -18,8 +18,12 @@ public class BacteriaFrame extends JFrame {
         final var environment = new Environment();
         final var bacteriaPanel = new BacteriaPanel(environment);
         add(bacteriaPanel);
-        add(new ControlPanel(environment, bacteriaPanel));
+        final var controlPanel = new ControlPanel(environment, bacteriaPanel);
+        add(controlPanel);
         pack();
-        new Timer(100, e -> bacteriaPanel.repaint()).start();
+        new Timer(100, e -> {
+            bacteriaPanel.repaint();
+            controlPanel.recountAliveBacteria();
+        }).start();
     }
 }

@@ -5,7 +5,10 @@ import ekosykh.edu.bacteria.logic.Environment;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -28,8 +31,13 @@ public class ControlPanel extends JPanel {
         var trackCheckBox = new JCheckBox("Show bacteria tracks");
         trackCheckBox.setSelected(true);
         add(trackCheckBox);
-        var freshTracksButton = new JButton("Fresh tracks");
-        add(freshTracksButton);
+        var gasTrailLabel = new JLabel("Tracks length: ");
+        add(gasTrailLabel);
+        var gasTrailSpinner = new JSpinner(new SpinnerNumberModel(environment.getGasTrailLength(),
+                0, Integer.MAX_VALUE, 1));
+        add(gasTrailSpinner);
+        var cleanTracksButton = new JButton("Clean tracks");
+        add(cleanTracksButton);
 
         trackCheckBox.addActionListener(event ->
                 bacteriaPanel.setTrackMovements(trackCheckBox.isSelected())
@@ -39,7 +47,13 @@ public class ControlPanel extends JPanel {
             bacteriaCount.recountBacteria();
             aliveCount.recountBacteria();
         });
-        freshTracksButton.addActionListener(event -> environment.cleanTracks());
+        gasTrailSpinner.addChangeListener( event -> {
+            Object value = gasTrailSpinner.getValue();
+            if (value instanceof Integer) {
+                environment.setGasTrailLength((Integer) value);
+            }
+        } );
+        cleanTracksButton.addActionListener(event -> environment.cleanTracks());
     }
 
     void recountAliveBacteria() {

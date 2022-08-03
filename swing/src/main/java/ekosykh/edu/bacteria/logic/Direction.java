@@ -1,7 +1,5 @@
 package ekosykh.edu.bacteria.logic;
 
-import java.util.Arrays;
-
 enum Direction {
     TOP_LEFT(-1, -1),
     TOP(0, -1),
@@ -28,8 +26,37 @@ enum Direction {
         return y;
     }
 
-    static Direction getDirection(int x, int y) {
-        return Arrays.stream(Direction.values())
-                .filter(d -> d.x == x && d.y == y).findFirst().orElseThrow();
+    static Direction valueOf(int x, int y) {
+        switch (x) {
+            case 0:
+                switch (y) {
+                    case -1:
+                        return TOP;
+                    case 1:
+                        return BOTTOM;
+                }
+                break;
+            case 1:
+                switch (y) {
+                    case -1:
+                        return TOP_RIGHT;
+                    case 0:
+                        return RIGHT;
+                    case 1:
+                        return BOTTOM_RIGHT;
+                }
+                break;
+            case -1:
+                switch (y) {
+                    case -1:
+                        return TOP_LEFT;
+                    case 0:
+                        return LEFT;
+                    case 1:
+                        return BOTTOM_LEFT;
+                }
+                break;
+        }
+        throw new IllegalArgumentException("A coordinate may be changed only to -1, 0, or 1");
     }
 }

@@ -16,7 +16,7 @@ class BacteriaTest {
                 environment.area[11][10] = environment.area[11][11] = environment.area[10][11] =
                         environment.area[9][11] = Position.BACTERIA_WAS_HERE.getValue();
 
-        bacteria.makeStep();
+        bacteria.run();
 
         assertTrue( bacteria.isAlive() );
         assertEquals( 9, bacteria.getX());
@@ -33,7 +33,7 @@ class BacteriaTest {
 
         environment.area[0][1] = environment.area[1][0] = Position.BACTERIA_WAS_HERE.getValue();
 
-        bacteria.makeStep();
+        bacteria.run();
 
         assertTrue( bacteria.isAlive() );
         assertEquals( 1, bacteria.getX());
@@ -52,11 +52,11 @@ class BacteriaTest {
                 environment.area[11][10] = environment.area[11][11] = environment.area[10][11] =
                         environment.area[9][11] = environment.area[9][10] = Position.BACTERIA_WAS_HERE.getValue();
 
-        bacteria.makeStep();
+        bacteria.run();
 
         assertFalse( bacteria.isAlive() );
         assertEquals( 10, bacteria.getX());
         assertEquals( 10, bacteria.getY());
-        assertEquals( Position.BACTERIA_IS_HERE.getValue(), environment.area[10][10] );
+        assertEquals( Position.BACTERIA_IS_DEAD.getValue(), environment.area[10][10] );
     }
 }

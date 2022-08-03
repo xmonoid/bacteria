@@ -3,13 +3,14 @@ package ekosykh.edu.bacteria.logic;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class Bacteria extends TimerTask {
 
     private static final Random RND = new Random();
     private static final int MAX_X = Environment.WIDTH;
     private static final int MAX_Y = Environment.HEIGHT;
-    private static int nextId = 0;
+    private static final AtomicInteger nextId = new AtomicInteger(0);
 
     private int x;
     private int y;
@@ -20,7 +21,7 @@ class Bacteria extends TimerTask {
     public Bacteria(final Environment environment) {
         this.x = RND.nextInt(MAX_X);
         this.y = RND.nextInt(MAX_Y);
-        this.id = nextId++;
+        this.id = nextId.incrementAndGet();
         this.environment = environment;
         alive = true;
     }
@@ -36,7 +37,7 @@ class Bacteria extends TimerTask {
         makeStep();
     }
 
-    void makeStep() {
+    private void makeStep() {
         // 1. Determine is there an available place for the next step
         var availableDirections = new ArrayList<Direction>(8);
         for (int i = x-1; i <= x+1; i++) {
@@ -46,7 +47,7 @@ class Bacteria extends TimerTask {
                     continue;
                 }
                 if (environment.area[i][j] == 0) {
-                    availableDirections.add( Direction.getDirection(i-x, j-y) );
+                    availableDirections.add( Direction.valueOf(i-x, j-y) );
                 }
             }
         }
@@ -80,11 +81,11 @@ class Bacteria extends TimerTask {
         return id;
     }
 
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    int getY() {
+    public int getY() {
         return y;
     }
 

@@ -1,6 +1,7 @@
 package ekosykh.edu.bacteria.swing;
 
 import ekosykh.edu.bacteria.logic.Environment;
+import ekosykh.edu.bacteria.logic.Position;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -11,6 +12,9 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 public class BacteriaPanel extends JPanel {
+
+    private static final Color ALIVE_BACTERIA_COLOR = new Color(0x22B14C);
+    private static final Color GAS_TRACK_COLOR = new Color(0xFF7F27);
 
     private final Environment environment;
 
@@ -35,19 +39,21 @@ public class BacteriaPanel extends JPanel {
         synchronized (environment.area) {
             for (int i = 0; i < environment.area.length; i++) {
                 for (int j = 0; j < environment.area[i].length; j++) {
-                    if (environment.area[i][j] > 0) {
-                        switch (environment.area[i][j]) {
-                            case 1:
-                                comp2D.setColor(Color.BLUE);
-                                comp2D.fillOval(i, j, 3, 3);
-                                break;
-                            case 2:
-                                if (trackMovements) {
-                                    comp2D.setColor(Color.RED);
-                                    comp2D.fillOval(i, j, 1, 1);
-                                }
-                                break;
-                        }
+                    switch (Position.valueOf(environment.area[i][j])) {
+                        case BACTERIA_IS_DEAD:
+                            comp2D.setColor(Color.BLACK);
+                            comp2D.fillOval(i, j, 3, 3);
+                            break;
+                        case BACTERIA_IS_HERE:
+                            comp2D.setColor(ALIVE_BACTERIA_COLOR);
+                            comp2D.fillOval(i, j, 3, 3);
+                            break;
+                        case BACTERIA_WAS_HERE:
+                            if (trackMovements) {
+                                comp2D.setColor(GAS_TRACK_COLOR);
+                                comp2D.fillOval(i, j, 1, 1);
+                            }
+                            break;
                     }
                 }
             }

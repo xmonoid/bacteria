@@ -54,6 +54,9 @@ class Bacteria extends TimerTask {
         if (availableDirections.isEmpty()) {
             this.cancel();
             alive = false;
+            synchronized (environment.area) {
+                environment.area[x][y] = Position.BACTERIA_IS_DEAD.getValue();
+            }
         } else {
             // Clean old position
             synchronized (environment.area) {

@@ -1,6 +1,7 @@
 package ekosykh.edu.bacteria.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,8 +41,33 @@ class Bacteria extends TimerTask {
     }
 
     private void makeStep() {
-        // 1. Determine is there an available place for the next step
-        var availableDirections = new ArrayList<Direction>(8);
+        synchronized (environment.area) {
+            // 1. Determine is there an available place for the next step
+            var availableDirections = availableDirections();
+
+            // 2. If there is no place, the bacteria dies
+            if (availableDirections.isEmpty()) {
+                alive = false;
+                environment.area[x][y] = BACTERIA_IS_DEAD;
+                this.cancel();
+            } else {
+                // Clean old position
+                environment.area[x][y] = BACTERIA_WAS_HERE;
+
+                // 3. Choose a random direction from the list of available ones
+                int nextInt = RND.nextInt(availableDirections.size());
+                var direction = availableDirections.get(nextInt);
+                x += direction.getX();
+                y += direction.getY();
+
+                // Set new position
+                environment.area[x][y] = BACTERIA_IS_HERE;
+            }
+        }
+    }
+
+    private List<Direction> availableDirections() {
+        var result  = new ArrayList<Direction>(8);
         for (int i = x-1; i <= x+1; i++) {
             for (int j = y-1; j <= y+1; j++) {
                 // Exclude walls and the current position
@@ -49,34 +75,11 @@ class Bacteria extends TimerTask {
                     continue;
                 }
                 if (environment.area[i][j] == EMPTY) {
-                    availableDirections.add( Direction.valueOf(i-x, j-y) );
+                    result.add( Direction.valueOf(i-x, j-y) );
                 }
             }
         }
-        // 2. If there is no place, the bacteria dies
-        if (availableDirections.isEmpty()) {
-            this.cancel();
-            alive = false;
-            synchronized (environment.area) {
-                environment.area[x][y] = BACTERIA_IS_DEAD;
-            }
-        } else {
-            // Clean old position
-            synchronized (environment.area) {
-                environment.area[x][y] = BACTERIA_WAS_HERE;
-            }
-
-            // 3. Choose a random direction from the list of available ones
-            int nextInt = RND.nextInt(availableDirections.size());
-            var direction = availableDirections.get(nextInt);
-            x += direction.getX();
-            y += direction.getY();
-
-            // Set new position
-            synchronized (environment.area) {
-                environment.area[x][y] = BACTERIA_IS_HERE;
-            }
-        }
+        return result;
     }
 
     public int getId() {

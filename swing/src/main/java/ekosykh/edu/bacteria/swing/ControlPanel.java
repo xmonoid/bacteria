@@ -19,6 +19,7 @@ public class ControlPanel extends JPanel {
     public static final int HEIGHT = 600;
 
     private final BacteriaAliveCountLabel aliveCount;
+    private final BacteriaTotalCountLabel bacteriaCount;
 
     public ControlPanel(final Environment environment,
                         final BacteriaPanel bacteriaPanel) {
@@ -27,7 +28,9 @@ public class ControlPanel extends JPanel {
         add(bacteriaButton);
         var oneHundredBacteriaButton = new JButton("Add 100 new Bacteria");
         add(oneHundredBacteriaButton);
-        var bacteriaCount = new BacteriaTotalCountLabel("Total bacteria: ", environment);
+        var oneThousandBacteriaButton = new JButton("Add 1000 new Bacteria");
+        add(oneThousandBacteriaButton);
+        bacteriaCount = new BacteriaTotalCountLabel("Total bacteria: ", environment);
         add(bacteriaCount);
         aliveCount = new BacteriaAliveCountLabel("Alive bacteria:", environment);
         add(aliveCount);
@@ -45,16 +48,13 @@ public class ControlPanel extends JPanel {
         trackCheckBox.addActionListener(event ->
                 bacteriaPanel.setTrackMovements(trackCheckBox.isSelected())
         );
-        bacteriaButton.addActionListener(event -> {
-            environment.addBacteria();
-            bacteriaCount.recountBacteria();
-            aliveCount.recountBacteria();
-        });
-        oneHundredBacteriaButton.addActionListener(event -> {
-            IntStream.range(0, 100).forEach(i -> environment.addBacteria());
-            bacteriaCount.recountBacteria();
-            aliveCount.recountBacteria();
-        });
+        bacteriaButton.addActionListener(event -> new Thread(environment::addBacteria).start());
+        oneHundredBacteriaButton.addActionListener(event -> new Thread(() -> IntStream.range(0, 100)
+                .parallel()
+                .forEach(i -> environment.addBacteria())).start());
+        oneThousandBacteriaButton.addActionListener(event -> new Thread(() -> IntStream.range(0, 1000)
+                .parallel()
+                .forEach(i -> environment.addBacteria())).start());
         gasTrailSpinner.addChangeListener( event -> {
             Object value = gasTrailSpinner.getValue();
             if (value instanceof Integer) {
@@ -65,6 +65,7 @@ public class ControlPanel extends JPanel {
     }
 
     void recountAliveBacteria() {
+        bacteriaCount.recountBacteria();
         aliveCount.recountBacteria();
     }
 

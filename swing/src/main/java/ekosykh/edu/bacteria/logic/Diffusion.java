@@ -5,19 +5,21 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.TimerTask;
 
+import static ekosykh.edu.bacteria.logic.Position.*;
+
 class Diffusion extends TimerTask {
 
-    private final int[][] area;
+    private final Position[][] area;
 
-    final Queue<int[][]> snapshots = new LinkedList<>();
+    final Queue<Position[][]> snapshots = new LinkedList<>();
 
     private int gasTrailLength;
 
-    public Diffusion(int[][] area) {
+    public Diffusion(Position[][] area) {
         this(area, 5);
     }
 
-    public Diffusion(int[][] area, int gasTrailLength) {
+    public Diffusion(Position[][] area, int gasTrailLength) {
         this.area = area;
         this.gasTrailLength = gasTrailLength;
     }
@@ -33,20 +35,20 @@ class Diffusion extends TimerTask {
         //    точки: они становятся чистыми
 
         // Сняли снапшот текущего поля
-        final int[][] current;
+        final Position[][] current;
         synchronized (area) {
-            current = Arrays.stream(area).map(int[]::clone).toArray(int[][]::new);
+            current = Arrays.stream(area).map(Position[]::clone).toArray(Position[][]::new);
         }
         // Убрали все точки, кроме загазованных
         for (int i = 0; i < current.length; i++) {
             for (int j = 0; j < current[i].length; j++) {
-                if (current[i][j] != Position.BACTERIA_WAS_HERE.getValue()) {
-                    current[i][j] = Position.EMPTY.getValue();
+                if (current[i][j] != BACTERIA_WAS_HERE) {
+                    current[i][j] = EMPTY;
                 }
             }
         }
         // Вычитаем из текущего снапшота все предыдущие
-        snapshots.forEach( previous -> subtractAreas(current, previous));
+        snapshots.forEach( previous -> cleanPositions(current, previous));
         // Новый снапшот ставим в очередь на очстку поля
         snapshots.add(current);
 
@@ -54,17 +56,19 @@ class Diffusion extends TimerTask {
         if (snapshots.size() > gasTrailLength) {
             synchronized (area) {
                 while (snapshots.size() > gasTrailLength) {
-                    int[][] toClean = snapshots.remove();
-                    subtractAreas(area, toClean);
+                    Position[][] toClean = snapshots.remove();
+                    cleanPositions(area, toClean);
                 }
             }
         }
     }
 
-    static void subtractAreas(int[][] minuend, int[][] subtrahend) {
-        for (int i = 0; i < minuend.length; i++) {
-            for (int j = 0; j < minuend[i].length; j++) {
-                minuend[i][j] -= subtrahend[i][j];
+    private static void cleanPositions(Position[][] shouldBeCleaned, Position[][] whereToClean) {
+        for (int i = 0; i < whereToClean.length; i++) {
+            for (int j = 0; j < whereToClean[i].length; j++) {
+                if (whereToClean[i][j] == BACTERIA_WAS_HERE) {
+                    shouldBeCleaned[i][j] = EMPTY;
+                }
             }
         }
     }

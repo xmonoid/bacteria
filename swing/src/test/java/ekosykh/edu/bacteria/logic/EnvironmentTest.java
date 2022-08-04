@@ -40,9 +40,9 @@ class EnvironmentTest {
     @Test
     void testCleanTracks() {
         var environment = new Environment();
-        environment.area[100][100] = Position.BACTERIA_WAS_HERE.getValue();
+        environment.area[100][100] = Position.BACTERIA_WAS_HERE;
         environment.cleanTracks();
-        Arrays.stream(environment.area).flatMapToInt( Arrays::stream ).forEach( it ->
-                assertNotEquals( Position.BACTERIA_WAS_HERE.getValue(), it ));
+        Arrays.stream(environment.area).flatMap( Arrays::stream ).forEach( it ->
+                assertNotEquals( Position.BACTERIA_WAS_HERE, it ));
     }
 }

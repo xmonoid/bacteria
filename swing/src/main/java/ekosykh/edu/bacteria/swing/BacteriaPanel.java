@@ -39,7 +39,7 @@ public class BacteriaPanel extends JPanel {
         synchronized (environment.area) {
             for (int i = 0; i < environment.area.length; i++) {
                 for (int j = 0; j < environment.area[i].length; j++) {
-                    switch (Position.valueOf(environment.area[i][j])) {
+                    switch (environment.area[i][j]) {
                         case BACTERIA_IS_DEAD:
                             comp2D.setColor(Color.BLACK);
                             comp2D.fillOval(i, j, 3, 3);

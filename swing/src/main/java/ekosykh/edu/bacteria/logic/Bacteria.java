@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static ekosykh.edu.bacteria.logic.Position.*;
+
 class Bacteria extends TimerTask {
 
     private static final Random RND = new Random();
@@ -46,7 +48,7 @@ class Bacteria extends TimerTask {
                 if (i<0 || i>=MAX_X || j<0 || j>=MAX_Y || (i==x && j==y)) {
                     continue;
                 }
-                if (environment.area[i][j] == 0) {
+                if (environment.area[i][j] == EMPTY) {
                     availableDirections.add( Direction.valueOf(i-x, j-y) );
                 }
             }
@@ -56,12 +58,12 @@ class Bacteria extends TimerTask {
             this.cancel();
             alive = false;
             synchronized (environment.area) {
-                environment.area[x][y] = Position.BACTERIA_IS_DEAD.getValue();
+                environment.area[x][y] = BACTERIA_IS_DEAD;
             }
         } else {
             // Clean old position
             synchronized (environment.area) {
-                environment.area[x][y] = Position.BACTERIA_WAS_HERE.getValue();
+                environment.area[x][y] = BACTERIA_WAS_HERE;
             }
 
             // 3. Choose a random direction from the list of available ones
@@ -72,7 +74,7 @@ class Bacteria extends TimerTask {
 
             // Set new position
             synchronized (environment.area) {
-                environment.area[x][y] = Position.BACTERIA_IS_HERE.getValue();
+                environment.area[x][y] = BACTERIA_IS_HERE;
             }
         }
     }

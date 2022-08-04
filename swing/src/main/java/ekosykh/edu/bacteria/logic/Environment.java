@@ -1,20 +1,24 @@
 package ekosykh.edu.bacteria.logic;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static ekosykh.edu.bacteria.logic.Position.EMPTY;
 
 public class Environment {
 
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
     // this is the area where all bacteria live
-    public final int[][] area;
+    public final Position[][] area;
     private final Map<Integer, Bacteria> createdBacteria;
     private final Diffusion diffusion;
 
     public Environment() {
-        area = new int[WIDTH][HEIGHT];
+        area = new Position[WIDTH][HEIGHT];
+        Arrays.stream(area).forEach(a -> Arrays.fill(a, EMPTY));
         diffusion = new Diffusion(area);
         createdBacteria = new ConcurrentHashMap<>();
         new Timer("Diffusion").scheduleAtFixedRate(diffusion, 0L, 1_000L);
@@ -49,8 +53,8 @@ public class Environment {
         synchronized (area) {
             for (int i = 0; i < area.length; i++) {
                 for (int j = 0; j < area[i].length; j++) {
-                    if (area[i][j] == Position.BACTERIA_WAS_HERE.getValue()) {
-                        area[i][j] = Position.EMPTY.getValue();
+                    if (area[i][j] == Position.BACTERIA_WAS_HERE) {
+                        area[i][j] = Position.EMPTY;
                     }
                 }
             }

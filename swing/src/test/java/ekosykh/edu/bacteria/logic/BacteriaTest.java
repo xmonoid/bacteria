@@ -81,4 +81,18 @@ class BacteriaTest {
         assertEquals( 10, bacteria.getY());
         assertEquals( Position.BACTERIA_IS_DEAD, environment.area[10][10] );
     }
+
+    @Test
+    void testDivideBacteria() {
+        var environment = new Environment();
+        var bacteria = new Bacteria(environment, 100, 100);
+
+        for (int i = 0; i < 11; i++) {
+            bacteria.run();
+            environment.cleanTracks();
+        }
+
+        assertEquals(1, environment.getBacteriaNumber());
+        assertEquals(1, environment.getAliveBacteriaNumber());
+    }
 }

@@ -15,17 +15,22 @@ public class Environment {
     public final Position[][] area;
     private final Map<Integer, Bacteria> createdBacteria;
     private final Diffusion diffusion;
+    private volatile int bacteriaDivisionTime;
 
     public Environment() {
         area = new Position[WIDTH][HEIGHT];
         Arrays.stream(area).forEach(a -> Arrays.fill(a, EMPTY));
         diffusion = new Diffusion(area);
+        bacteriaDivisionTime = 10;
         createdBacteria = new ConcurrentHashMap<>();
         new Timer("Diffusion").scheduleAtFixedRate(diffusion, 0L, 1_000L);
     }
 
     public void addBacteria() {
-        var bacteria = new Bacteria(this);
+        addBacteria(new Bacteria(this));
+    }
+
+    public void addBacteria(Bacteria bacteria) {
         var bacteriaTimer = new Timer("Bacteria #" + bacteria.getId());
         bacteriaTimer.scheduleAtFixedRate(bacteria, 0L, 1_000L);
         createdBacteria.put(bacteria.getId(), bacteria);
@@ -47,6 +52,14 @@ public class Environment {
 
     public void setGasTrailLength(int gasTrailLength) {
         diffusion.setGasTrailLength(gasTrailLength);
+    }
+
+    public int getBacteriaDivisionTime() {
+        return bacteriaDivisionTime;
+    }
+
+    public void setBacteriaDivisionTime(int bacteriaDivisionTime) {
+        this.bacteriaDivisionTime = bacteriaDivisionTime;
     }
 
     public void cleanTracks() {

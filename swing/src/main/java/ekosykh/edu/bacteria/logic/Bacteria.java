@@ -2,6 +2,7 @@ package ekosykh.edu.bacteria.logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,6 +21,7 @@ class Bacteria extends TimerTask {
     private final int id;
     private final Environment environment;
     private boolean alive;
+    private int numberOfSteps;
 
     {
         this.id = nextId.incrementAndGet();
@@ -30,11 +32,11 @@ class Bacteria extends TimerTask {
         this.environment = environment;
         if (startX < 0 || startX >= MAX_X) {
             throw new IllegalArgumentException(
-                    "Start x coordinate for a new bacteria must be between " + 0 + " " + MAX_X + ".");
+                    "Start x coordinate is illegal -> " + startX);
         }
         if (startY < 0 || startY >= MAX_Y) {
             throw new IllegalArgumentException(
-                    "Start y coordinate for a new bacteria must be between " + 0 + " " + MAX_Y + ".");
+                    "Start y coordinate is illegal -> " + startY);
         }
         synchronized (environment.area) {
             if (environment.area[startX][startY] != EMPTY) {
@@ -87,33 +89,54 @@ class Bacteria extends TimerTask {
 
     @Override
     public void run() {
-        makeStep();
-    }
-
-    private void makeStep() {
         synchronized (environment.area) {
-            // 1. Determine is there an available place for the next step
-            var availableDirections = availableDirections();
+            // Determine is there an available place for the next action
+            final var nextPlace = nextDirection();
 
-            // 2. If there is no place, the bacteria dies
-            if (availableDirections.isEmpty()) {
+            // If there is no place, the bacteria dies
+            if (nextPlace.isEmpty()) {
                 alive = false;
                 environment.area[x][y] = BACTERIA_IS_DEAD;
                 this.cancel();
             } else {
-                // Clean old position
-                environment.area[x][y] = BACTERIA_WAS_HERE;
-
-                // 3. Choose a random direction from the list of available ones
-                int nextInt = RND.nextInt(availableDirections.size());
-                var direction = availableDirections.get(nextInt);
-                x += direction.getX();
-                y += direction.getY();
-
-                // Set new position
-                environment.area[x][y] = BACTERIA_IS_HERE;
+                if (numberOfSteps < environment.getBacteriaDivisionTime()) {
+                    // The bacteria make one more step
+                    makeStep(nextPlace.get());
+                    numberOfSteps++;
+                } else {
+                    // The bacteria spawn a new one
+                    environment.addBacteria(spawnNewOne(nextPlace.get()));
+                    numberOfSteps = 0;
+                }
             }
         }
+    }
+
+    private void makeStep(Direction direction) {
+        // Clean old position
+        environment.area[x][y] = BACTERIA_WAS_HERE;
+
+        x += direction.getX();
+        y += direction.getY();
+
+        // Set new position
+        environment.area[x][y] = BACTERIA_IS_HERE;
+    }
+
+    private Bacteria spawnNewOne(Direction direction) {
+        var x1 = x + direction.getX();
+        var y1 = y + direction.getY();
+        return new Bacteria(environment, x1, y1);
+    }
+
+    private Optional<Direction> nextDirection() {
+        // Choose a random direction from the list of available ones
+        var directions = availableDirections();
+        if (directions.isEmpty()) {
+            return Optional.empty();
+        }
+        int nextInt = RND.nextInt(directions.size());
+        return Optional.of(directions.get(nextInt));
     }
 
     private List<Direction> availableDirections() {

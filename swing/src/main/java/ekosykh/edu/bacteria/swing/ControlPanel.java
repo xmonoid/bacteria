@@ -7,8 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.stream.IntStream;
@@ -34,16 +36,23 @@ public class ControlPanel extends JPanel {
         add(bacteriaCount);
         aliveCount = new BacteriaAliveCountLabel("Alive bacteria:", environment);
         add(aliveCount);
+        add(new JSeparator(SwingConstants.HORIZONTAL));
         var trackCheckBox = new JCheckBox("Show bacteria tracks");
         trackCheckBox.setSelected(true);
         add(trackCheckBox);
-        var gasTrailLabel = new JLabel("Tracks length: ");
+        var gasTrailLabel = new JLabel("Track length: ");
         add(gasTrailLabel);
         var gasTrailSpinner = new JSpinner(new SpinnerNumberModel(environment.getGasTrailLength(),
                 0, Integer.MAX_VALUE, 1));
         add(gasTrailSpinner);
         var cleanTracksButton = new JButton("Clean tracks");
         add(cleanTracksButton);
+        add(new JSeparator(SwingConstants.HORIZONTAL));
+        var bacteriumDividesLabel = new JLabel("Time to divide:");
+        add(bacteriumDividesLabel);
+        var bacteriumDividesSpinner = new JSpinner(new SpinnerNumberModel(environment.getBacteriaDivisionTime(),
+                0, Integer.MAX_VALUE, 1));
+        add(bacteriumDividesSpinner);
 
         trackCheckBox.addActionListener(event ->
                 bacteriaPanel.setTrackMovements(trackCheckBox.isSelected())
@@ -62,6 +71,12 @@ public class ControlPanel extends JPanel {
             }
         } );
         cleanTracksButton.addActionListener(event -> environment.cleanTracks());
+        bacteriumDividesSpinner.addChangeListener( e -> {
+            Object value = bacteriumDividesSpinner.getValue();
+            if (value instanceof Integer) {
+                environment.setBacteriaDivisionTime((Integer) value);
+            }
+        } );
     }
 
     void recountAliveBacteria() {

@@ -15,15 +15,18 @@ public class Environment {
     public final Position[][] area;
     private final Map<Integer, Bacteria> createdBacteria;
     private final Diffusion diffusion;
+    private final Dissimilation dissimilation;
     private volatile int bacteriaDivisionTime;
 
     public Environment() {
         area = new Position[WIDTH][HEIGHT];
         Arrays.stream(area).forEach(a -> Arrays.fill(a, EMPTY));
         diffusion = new Diffusion(area);
+        dissimilation = new Dissimilation(area);
         bacteriaDivisionTime = 10;
         createdBacteria = new ConcurrentHashMap<>();
         new Timer("Diffusion").scheduleAtFixedRate(diffusion, 0L, 1_000L);
+        new Timer("Dissimilation").scheduleAtFixedRate(dissimilation, 0L, 1_000L);
     }
 
     public void addBacteria() {
@@ -52,6 +55,14 @@ public class Environment {
 
     public void setGasTrailLength(int gasTrailLength) {
         diffusion.setGasTrailLength(gasTrailLength);
+    }
+
+    public int getTimeToDissimilate() {
+        return dissimilation.getTimeToDissimilate();
+    }
+
+    public void setTimeToDissimilate(int timeToDissimilate) {
+        dissimilation.setTimeToDissimilate(timeToDissimilate);
     }
 
     public int getBacteriaDivisionTime() {

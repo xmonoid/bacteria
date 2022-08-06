@@ -1,7 +1,6 @@
 package ekosykh.edu.bacteria.swing;
 
 import ekosykh.edu.bacteria.logic.Environment;
-import ekosykh.edu.bacteria.logic.Position;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -19,6 +18,7 @@ public class BacteriaPanel extends JPanel {
     private final Environment environment;
 
     private boolean trackMovements = true;
+    private boolean showDead = true;
 
     public BacteriaPanel(final Environment environment) {
         this.environment = environment;
@@ -41,8 +41,10 @@ public class BacteriaPanel extends JPanel {
                 for (int j = 0; j < environment.area[i].length; j++) {
                     switch (environment.area[i][j]) {
                         case BACTERIA_IS_DEAD:
-                            comp2D.setColor(Color.BLACK);
-                            comp2D.fillOval(i, j, 3, 3);
+                            if (showDead) {
+                                comp2D.setColor(Color.BLACK);
+                                comp2D.fillOval(i, j, 3, 3);
+                            }
                             break;
                         case BACTERIA_IS_HERE:
                             comp2D.setColor(ALIVE_BACTERIA_COLOR);
@@ -62,5 +64,9 @@ public class BacteriaPanel extends JPanel {
 
     public void setTrackMovements(boolean trackMovements) {
         this.trackMovements = trackMovements;
+    }
+
+    public void setShowDead(boolean showDead) {
+        this.showDead = showDead;
     }
 }

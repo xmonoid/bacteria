@@ -53,6 +53,15 @@ public class ControlPanel extends JPanel {
         var bacteriumDividesSpinner = new JSpinner(new SpinnerNumberModel(environment.getBacteriaDivisionTime(),
                 0, Integer.MAX_VALUE, 1));
         add(bacteriumDividesSpinner);
+        add(new JSeparator(SwingConstants.HORIZONTAL));
+        var showDeadCheckBox = new JCheckBox("Show dead bacteria");
+        showDeadCheckBox.setSelected(true);
+        add(showDeadCheckBox);
+        var deadBacteriaLabel = new JLabel("Time to clean dead bacteria:");
+        add(deadBacteriaLabel);
+        var deadBacteriaSpinner = new JSpinner(new SpinnerNumberModel(environment.getTimeToDissimilate(),
+                0, Integer.MAX_VALUE, 1));
+        add(deadBacteriaSpinner);
 
         trackCheckBox.addActionListener(event ->
                 bacteriaPanel.setTrackMovements(trackCheckBox.isSelected())
@@ -77,6 +86,15 @@ public class ControlPanel extends JPanel {
                 environment.setBacteriaDivisionTime((Integer) value);
             }
         } );
+        showDeadCheckBox.addActionListener(event ->
+                bacteriaPanel.setShowDead(showDeadCheckBox.isSelected())
+        );
+        deadBacteriaSpinner.addChangeListener( e -> {
+            Object value = deadBacteriaSpinner.getValue();
+            if (value instanceof Integer) {
+                environment.setTimeToDissimilate((Integer) value);
+            }
+        });
     }
 
     void recountAliveBacteria() {

@@ -37,6 +37,10 @@ class Diffusion extends TimerTask {
         // Сняли снапшот текущего поля
         final Position[][] current;
         synchronized (area) {
+            // Если поле пустое, собирать нечего.
+            if (isEmpty(area)) {
+                return;
+            }
             current = Arrays.stream(area).map(Position[]::clone).toArray(Position[][]::new);
         }
         // Убрали все точки, кроме загазованных
@@ -71,6 +75,17 @@ class Diffusion extends TimerTask {
                 }
             }
         }
+    }
+
+    private static boolean isEmpty(Position[][] positions) {
+        for (var position : positions) {
+            for (var value : position) {
+                if (value != EMPTY) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public int getGasTrailLength() {
